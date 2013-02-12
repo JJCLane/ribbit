@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<link rel="stylesheet/less" href="/Resource/style.less">
-		<script src="/Resource/less.js"></script>
+		<link rel="stylesheet" href="/Resource/style.css">
 	</head>
 	<body>
 		<header>
