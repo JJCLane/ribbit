@@ -133,6 +133,14 @@
 			}
 			return $fribbits;
 		}
+		public function postRibbit($user, $text){
+			$r = array(
+				"ribbit" => $text,
+				"created_at" => date( 'Y-m-d H:i:s'),
+				"user_id" => $user->id
+			);
+			$this->insert("Ribbits", $r);
+		}
 
 	}
 ?>
