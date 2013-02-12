@@ -96,5 +96,18 @@
 			$this->insert("UserAuth", array("hash" => $hash, "username" => $user['username']));
 			setcookie("Auth", $hash);
 		}
+		public function attemptLogin($userInfo){
+			if($this->exists("Users", $userInfo)){
+				$this->authorizeUser($userInfo);
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+		public function logoutUser($hash){
+			$this->delete("UserAuth", array("hash" => $hash));
+			setcookie ("Auth", "", time() - 3600);
+		}
 	}
 ?>
