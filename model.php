@@ -53,5 +53,19 @@
 		    $res = $this->select($table, $arr);
 		    return ($res->num_rows > 0) ? true : false;
 		}
+		//--- function for checking if a user matches hash
+		public function userForAuth($hash){
+		    $query = "SELECT Users.* FROM Users JOIN (SELECT username FROM UserAuth WHERE hash = '";
+		    $query .= $hash . "' LIMIT 1) AS UA WHERE Users.username = UA.username LIMIT 1";
+		    $res = $this->db->query($query);
+		    if($res->num_rows > 0)
+		    {
+		        return $res->fetch_object();
+		    }
+		    else
+		    {
+		        return false;
+		    }
+		}
 	}
 ?>
