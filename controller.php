@@ -85,7 +85,7 @@
 						"4" => new Flash("Your Password must be at least 6 characters long.", "error"),
 						"5" => new Flash("You must enter a valid Email address.", "error"),
 						"6" => new Flash("You must enter a username.", "error"),
-						"7" => new Flash("You have to be signed in to acces that page.", "warning")
+						"7" => new Flash("You have to be signed in to access that page.", "warning")
 					);
 					$flash = $flashArr[$params[0]];
 				}
