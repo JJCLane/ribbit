@@ -126,5 +126,24 @@
 				}
 			}
 		}
+		private function login(){
+			$pass = hash('sha256', $_POST['password']);
+			$loginInfo = array(
+				'username' => $_POST['username'],
+				'password' => $pass
+			);
+			if($this->model->attemptLogin($loginInfo))
+			{
+				$this->redirect("buddies/0");
+			}
+			else
+			{
+				$this->redirect("home/0");
+			}
+		}
+		private function logout() {
+			$this->model->logoutUser($_COOKIE['Auth']);
+			$this->redirect("home");
+		}
 	}
 ?>
