@@ -35,7 +35,8 @@
 			$endpoint = $this->router->lookup($page);
 			if($endpoint === false)
 			{
-				header("HTTP/1.0 404 Not Found");
+				//header("HTTP/1.0 404 Not Found");
+				echo "Insert 404 Page here.";
 			} else 
 			{
 				$this->$endpoint($queryParams);
@@ -158,7 +159,8 @@
 					$flashArr = array(
 					  	"0" => new Flash("Welcome Back, " . $user->name, "notice"),
 					  	"1" => new Flash("Welcome to Ribbit, Thanks for signing up.", "notice"),
-					  	"2" => new Flash("You have exceeded the 140 character limit for Ribbits", "error")
+					  	"2" => new Flash("You have exceeded the 140 character limit for Ribbits.", "error"),
+					  	"3" => new Flash("A Ribbit cannot be blank.", "error")
 					);
 					$flash = $flashArr[$params[0]];
 				}
@@ -173,10 +175,12 @@
 				if(strlen($text) > 140)
 				{
 					$this->redirect("buddies/2");
-				} else
+				} else if(strlen($text) == 0)
 				{
+					$this->redirect("buddies/3");
+				} else {
 					$this->model->postRibbit($user, $text);
-					$this->redirect("buddies");
+					$this->redirect("buddies");					
 				}
 			}
 		}
