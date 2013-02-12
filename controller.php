@@ -165,5 +165,20 @@
 				$this->loadPage($user, "buddies", array('User' => $user, "userData" => $userData, "fribbits" => $fribbits), $flash);
 			}
 		}
+		private function newRibbit($params){
+			$user = $this->checkAuth();
+			if($user === false){ $this->redirect("home/7"); }
+			else{
+				$text = mysql_real_escape_string($_POST['text']);
+				if(strlen($text) > 140)
+				{
+					$this->redirect("buddies/2");
+				} else
+				{
+					$this->model->postRibbit($user, $text);
+					$this->redirect("buddies");
+				}
+			}
+		}
 	}
 ?>
