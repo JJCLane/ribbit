@@ -27,5 +27,34 @@
 				$this->$endpoint($queryParams);
 			}
 		}
+		private function redirect($url){
+		    header("Location: /" . $url);
+		}
+		private function loadView($view, $data = null){
+		    if (is_array($data))
+		    {
+		        extract($data);
+		    }
+		    require("Views/" . $view . ".php");
+		}
+		private function loadPage($user, $view, $data = null, $flash = false){
+		    $this->loadView("header", array('User' => $user));
+		    if ($flash !== false)
+		    {
+		        $flash->display();
+		    }
+		    $this->loadView($view, $data);
+		    $this->loadView("footer");
+		}
+		private function checkAuth(){
+		    if(isset($_COOKIE['Auth']))
+		    {
+		        return $this->model->userForAuth($_COOKIE['Auth']);
+		    } else
+		    {
+		        return false;
+		    }
+		}
+
 	}
 ?>
