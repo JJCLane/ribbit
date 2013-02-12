@@ -145,5 +145,25 @@
 			$this->model->logoutUser($_COOKIE['Auth']);
 			$this->redirect("home");
 		}
+		private function buddies($params){
+			$user = $this->checkAuth();
+			if($user === false){ $this->redirect("home/7"); }
+			else
+			{
+				$userData = $this->model->getUserInfo($user);
+				$fribbits = $this->model->getFollowersRibbits($user);
+				$flash = false;
+				if(isset($params[0]))
+				{
+					$flashArr = array(
+					  	"0" => new Flash("Welcome Back, " . $user->name, "notice"),
+					  	"1" => new Flash("Welcome to Ribbit, Thanks for signing up.", "notice"),
+					  	"2" => new Flash("You have exceeded the 140 character limit for Ribbits", "error")
+					);
+					$flash = $flashArr[$params[0]];
+				}
+				$this->loadPage($user, "buddies", array('User' => $user, "userData" => $userData, "fribbits" => $fribbits), $flash);
+			}
+		}
 	}
 ?>
