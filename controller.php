@@ -69,6 +69,29 @@
 		        return false;
 		    }
 		}
+		private function indexPage($params){
+			$user = $this->checkAuth();
+			if($user !== false) { $this->redirect("buddies"); }
+			else
+			{
+				$flash = false;
+				if($params !== false)
+				{
+					$flashArr = array(
+						"0" => new Flash("Your Username and/or Password was incorrect.", "error"),
+						"1" => new Flash("There's already a user with that email address.", "error"),
+						"2" => new Flash("That username has already been taken.", "error"),
+						"3" => new Flash("Passwords don't match.", "error"),
+						"4" => new Flash("Your Password must be at least 6 characters long.", "error"),
+						"5" => new Flash("You must enter a valid Email address.", "error"),
+						"6" => new Flash("You must enter a username.", "error"),
+						"7" => new Flash("You have to be signed in to acces that page.", "warning")
+					);
+					$flash = $flashArr[$params[0]];
+				}
+				$this->loadPage($user, "home", array(), $flash);
+			}
+		}
 
 	}
 ?>
