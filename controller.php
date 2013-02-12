@@ -17,7 +17,7 @@
 	}
 	class Controller{
 		private $model; // will model class
-		private $router // will router class
+		private $router; // will router class
 		function __construct(){
 			//initialize private variables
 			$this->model = new Model();

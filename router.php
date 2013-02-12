@@ -13,7 +13,7 @@
         		"public" => "publicPage",
         		"profiles" => "profiles",
         		"unfollow" => "unfollow",
-        		"follow" => "follow";
+        		"follow" => "follow"
         	);
 		}
 		//--- public function for performing lookup
