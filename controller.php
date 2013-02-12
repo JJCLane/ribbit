@@ -1,6 +1,20 @@
 <?php
 	require("model.php");
 	require("router.php");
+
+	class Flash{
+		public $msg;
+		public $type;
+		function __construct($msg, $type)
+		{
+			$this->msg = $msg;
+			$this->type = $type;
+		}
+		public function display()
+		{
+			echo "<div class=\"flash " . $this->type . "\">" . $this->msg . "</div>";
+		}
+	}
 	class Controller{
 		private $model; // will model class
 		private $router // will router class
