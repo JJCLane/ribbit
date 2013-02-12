@@ -92,6 +92,39 @@
 				$this->loadPage($user, "home", array(), $flash);
 			}
 		}
-
+		private function signUp(){
+			if($_POST['email'] == "" || strpos($_POST['email'], "@") === false){
+				$this->redirect("home/5");
+			}
+			else if($_POST['username'] == ""){
+				$this->redirect("home/6");
+			}
+			else if(strlen($_POST['password']) < 6)
+			{
+				$this->redirect("home/4");
+			}
+			else if($_POST['password'] != $_POST['password2'])
+			{
+				$this->redirect("home/3");
+			}
+			else{
+				$pass = hash('sha256', $_POST['password']);
+				$signupInfo = array(
+				  'username' => $_POST['username'],
+				  'email' => $_POST['email'],
+				  'password' => $pass,
+				  'name' => $_POST['name']
+				);
+				$resp = $this->model->signupUser($signupInfo);
+				if($resp === true)
+				{
+					$this->redirect("buddies/1");
+				}
+				else
+				{
+					$this->redirect("home/" . $resp);
+				}
+			}
+		}
 	}
 ?>
