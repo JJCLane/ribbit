@@ -7,7 +7,7 @@
 	<body>
 		<header>
 			<div class="wrapper">
-				<img src="http://cdn.tutsplus.com/net.tutsplus.com/authors/jeremymcpeak//Resource/gfx/logo.png">
+				<img src="http://ribbit.local/Resource/gfx/logo.png">
 				<span>Twitter Clone</span>
 				<?php if($User !== false){ ?>
 					<nav>
