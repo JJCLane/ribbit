@@ -184,5 +184,32 @@
 				}
 			}
 		}
+		private function publicPage($params){
+			$user = $this->checkAuth();
+			if($user === false){ $this->redirect("home/7"); }
+			else
+			{
+				$q = false;
+				if(isset($_POST['query']))
+				{
+					$q = $_POST['query'];
+				}
+				$ribbits = $this->model->getPublicRibbits($q);
+				$this->loadPage($user, "public", array('ribbits' => $ribbits));
+			}
+		}
+		private function profiles($params){
+			$user = $this->checkAuth();
+			if($user === false){ $this->redirect("home/7"); }
+			else{
+				$q = false;
+				if(isset($_POST['query']))
+				{
+					$q = $_POST['query'];
+				}
+				$profiles = $this->model->getPublicProfiles($user, $q);
+				$this->loadPage($user, "profiles", array('profiles' => $profiles));
+			}
+		}
 	}
 ?>
