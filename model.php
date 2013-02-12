@@ -67,5 +67,34 @@
 		        return false;
 		    }
 		}
+		public function signupUser($user){
+			$emailCheck = $this->exists("Users", array("email" => $user['email']));
+			if($emailCheck){
+				return 1;
+			}
+			else {
+				$userCheck = $this->exists("Users", array("username" => $user['username']));
+				if($userCheck){
+					return 2;
+				}
+				else{
+					$user['created_at'] = date( 'Y-m-d H:i:s');
+					$user['gravatar_hash'] = md5(strtolower(trim($user['email'])));
+					$this->insert("Users", $user);
+					$this->authorizeUser($user);
+					return true;
+				}
+			}
+		}
+		public function authorizeUser($user){
+			$chars = "qazwsxedcrfvtgbyhnujmikolp1234567890QAZWSXEDCRFVTGBYHNUJMIKOLP";
+			$hash = sha1($user['username']);
+			for($i = 0; $i<12; $i++)
+			{
+				$hash .= $chars[rand(0, 61)];
+			}
+			$this->insert("UserAuth", array("hash" => $hash, "username" => $user['username']));
+			setcookie("Auth", $hash);
+		}
 	}
 ?>
