@@ -1,0 +1,4 @@
+RewriteEngine On
+RewriteRule ^/?Resource/(.*)$ /$1 [L]
+RewriteRule ^$ /home [redirect]
+RewriteRule ^([a-zA-Z]+)/?([a-zA-Z0-9/]*)$ /app.php?page=$1&query=$2 [L]
