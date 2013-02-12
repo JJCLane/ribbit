@@ -141,6 +141,61 @@
 			);
 			$this->insert("Ribbits", $r);
 		}
+		public function getPublicRibbits($q){
+			if($q === false)
+			{
+				$query = "SELECT name, username, gravatar_hash, ribbit, Ribbits.created_at FROM Ribbits JOIN Users ";
+				$query .= "ON user_id = Users.id ORDER BY Ribbits.created_at DESC LIMIT 10;";
+			} else{
+				$query = "SELECT name, username, gravatar_hash, ribbit, Ribbits.created_at FROM Ribbits JOIN Users ";
+				$query .= "ON user_id = Users.id WHERE ribbit LIKE \"%" . $q ."%\" ORDER BY Ribbits.created_at DESC LIMIT 10;";
+			}
+			$res = $this->db->query($query);
+			$ribbits = array();
+			while($row = $res->fetch_object())
+			{
+				array_push($ribbits, $row);
+			}
+			return $ribbits;
+		}
+		public function getPublicProfiles($user, $q){
+			if($q === false)
+			{
+				$query = "SELECT id, name, username, gravatar_hash FROM Users WHERE id != " . $user->id;
+				$query .= " ORDER BY created_at DESC LIMIT 10";
+			} else{
+				$query = "SELECT id, name, username, gravatar_hash FROM Users WHERE id != " . $user->id;
+				$query .= " AND (name LIKE \"%" . $q . "%\" OR username LIKE \"%" . $q . "%\") ORDER BY created_at DESC LIMIT 10";
+			}
+			$userRes = $this->db->query($query);
+			if($userRes->num_rows > 0){
+				$userArr = array();
+				$query = "";
+				while($row = $userRes->fetch_assoc()){
+					$i = $row['id'];
+					$query .= "SELECT " . $i . " AS id, followers, IF(ribbit IS NULL, 'This user has no ribbits.', ribbit) ";
+					$query .= "AS ribbit, followed FROM (SELECT COUNT(*) as followers FROM Follows WHERE followee_id = " . $i . ") ";
+					$query .= "AS F LEFT JOIN (SELECT user_id, ribbit FROM Ribbits WHERE user_id = " . $i;
+					$query .= " ORDER BY created_at DESC LIMIT 1) AS R ON R.user_id = " . $i . " JOIN (SELECT COUNT(*) ";
+					$query .= "AS followed FROM Follows WHERE followee_id = " . $i . " AND user_id = " . $user->id . ") AS F2 LIMIT 1;";
+					$userArr[$i] = $row;
+				}
+				$this->db->multi_query($query);
+				$profiles = array();
+				do{
+					$row = $this->db->store_result()->fetch_object();
+					$i = $row->id;
+					$userArr[$i]['followers'] = $row->followers;
+					$userArr[$i]['followed'] = $row->followed;
+					$userArr[$i]['ribbit'] = $row->ribbit;
+					array_push($profiles, (object)$userArr[$i]);
+				} while($this->db->next_result());
+				return $profiles;
+			} else
+			{
+				return null;
+			}
+		}
 
 	}
 ?>
