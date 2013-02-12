@@ -9,7 +9,7 @@
 </div>
 <div id="ribbits" class="panel left">
     <h1>Public Profiles</h1>
-    <?php foreach($profiles as $user){ ?>
+    <?php if($profiles){ foreach($profiles as $user){ ?>
     <div class="ribbitWrapper">
         <img class="avatar" src="http://www.gravatar.com/avatar/<?php echo $user->gravatar_hash; ?>">
         <span class="name"><?php echo $user->name; ?></span> @<?php echo $user->username; ?>
@@ -19,5 +19,5 @@
             <?php echo $user->ribbit; ?>
         </p>
     </div>
-    <?php } ?>
+    <?php } }?>
 </div>
