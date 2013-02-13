@@ -196,6 +196,12 @@
 				return null;
 			}
 		}
+		public function follow($user, $fId){
+			$this->insert("Follows", array("user_id" => $user->id, "followee_id" => $fId));
+		}
+		public function unfollow($user, $fId){
+			$this->delete("Follows", array("user_id" => $user->id, "followee_id" => $fId));
+		}
 
 	}
 ?>
