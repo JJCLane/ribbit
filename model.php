@@ -189,7 +189,7 @@
 					$userArr[$i]['followed'] = $row->followed;
 					$userArr[$i]['ribbit'] = $row->ribbit;
 					array_push($profiles, (object)$userArr[$i]);
-				} while($this->db->more_results());
+			    } while($this->db->more_results() && $this->db->next_result());
 				return $profiles;
 			} else
 			{
