@@ -211,5 +211,21 @@
 				$this->loadPage($user, "profiles", array('profiles' => $profiles));
 			}
 		}
+		private function follow($params){
+			$user = $this->checkAuth();
+			if($user === false){ $this->redirect("home/7"); }
+			else {
+				$this->model->follow($user, $params[0]);
+				$this->redirect("profiles");
+			}
+		}
+		private function unfollow($params){
+			$user = $this->checkAuth();
+			if($user === false){ $this->redirect("home/7"); }
+			else {
+				$this->model->unfollow($user, $params[0]);
+				$this->redirect("profiles");
+			}
+		}
 	}
 ?>
